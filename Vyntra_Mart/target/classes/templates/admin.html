@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src= 
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> 
+    </script>
+    <style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+    
+    
+    
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<body>
+<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<!-- success message -->
+				<div th:if="${param.success}">
+					<div class="alert alert-info">Product added successfully</div>
+				</div>
+				<h1>Registration Form</h1>&nbsp<a th:href="@{/logout}">Logout</a>
+				
+				
+				
+				<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Add_product')">Add product</button>
+  <button class="tablinks" onclick="openCity(event, 'Delete_product')">Delete product</button>
+  <button class="tablinks" onclick="openCity(event, 'Support_work')">Support work</button>
+  
+  <button class="tablinks" onclick="openCity(event, 'ordermanagement')">Order Status management</button>
+    
+</div>
+
+
+<div id="Add_product" class="tabcontent">
+ <form th:action="@{/addproduct}" method="post" th:object="${product}">
+					<div class="form-group">
+						<label class="control-label" for="product_code">Product code</label>
+						<input id="product_code" class="form-control" th:field="*{product_code}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="brandname">Brand name</label>
+						<input id="brandname" class="form-control" th:field="*{brand_name}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="category">Category</label>
+						<input id="category" class="form-control" th:field="*{category}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="price">Price</label>
+						<input id="price" class="form-control" th:field="*{price}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="discount">Discount</label>
+						<input id="discount" class="form-control"  th:field="*{discount}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="colour">Colour</label>
+						<input id="colour" class="form-control"  th:field="*{colour}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="ideal">Ideal</label>
+						<input id="ideal" class="form-control"  th:field="*{ideal}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="supplier">Supplier</label>
+						<input id="supplier" class="form-control"  th:field="*{supplier}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="pic1">Pic1</label>
+						<input id="pic1" class="form-control"  th:field="*{pic1}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="pic2">Pic2</label>
+						<input id="pic2" class="form-control"  th:field="*{pic2}" required autofocus="autofocus"/>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Add</button>
+					</div>
+				</form>
+</div>
+
+<div id="Delete_product" class="tabcontent">
+  <form th:action="@{/deleteproduct/{}}">
+  <div class="form-group">
+						<label class="control-label" for="Product_id">Product_id</label>
+						<input id="Product_id" class="form-control"  />
+					</div>
+  
+  <div class="form-group">
+						<button type="submit" class="btn btn-success">Remove</button>
+					</div>
+  </form>
+</div>
+
+
+<div id="Support_work" class="tabcontent">
+  Support works
+</div>
+
+<div id="ordermanagement" class="tabcontent">
+	<th:block th:each="order : ${orders}">
+	check out id:<h3 th:text="${order.checkOutId}"></h3>
+	user_id:<h3 th:text="${order.user_id}"></h3>
+	Shipping_address:<h3 th:text="${order.shipping_address}"></h3>
+	Status:<h3 th:text="${order.status}"></h3>
+	<form th:action="@{/deliverProduct/{id}(id=${order.checkOutId})}" method="post">
+		<input type="submit" value="Deliver">
+	</form>
+	<br><br><br>
+</th:block>
+</div>
+
+
+
+
+
+
+
+
+
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+</body>
+</html>

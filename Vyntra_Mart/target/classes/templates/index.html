@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Registration and Login App</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+</head>
+<body>
+	<!-- create navigation bar ( header) -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	
+	<div th:if="${param.success}">
+					<div class="alert alert-info">your order placed successfully:)</div>
+				</div>
+	<span sec:authentication="principal.username">user</Span>
+	<a th:href="@{/viewcart}">view cart</a>
+	<br>
+	<a th:href="@{/viewwishlist}">view wishlist</a>
+	<br>
+	<a th:href="@{/viewmyorders}">view My orders</a>
+	<br>
+	<th:block th:each="product :${products}">
+		<h1 th:text="${product.product_code}"></h1>
+		<h1 th:text="${product.brand_name}"></h1>
+		<img th:src="${product.pic1}" style="width:200px;height:250px;">
+		<a th:href="@{/viewProduct/{id}(id=${product.product_id})}" >view</a>
+	</th:block>
+	
+</body>
+</html>

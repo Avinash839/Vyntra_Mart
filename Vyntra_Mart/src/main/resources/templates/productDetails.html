@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:object:  product>
+	<h1 th:text="${product.product_code}"></h1>
+		<h1 th:text="${product.brand_name}"></h1>
+		
+		
+		<img th:src="${product.pic1}" style="width:200px;height:250px;">
+		
+		
+		
+		<a th:href="@{/addtocart/{id}(id=${product.product_id})}">Add to cart</a><br>
+		<a th:href="@{/addtowishlist/{id}(id=${product.product_id})}">Add to wishlist</a>
+</th:block>
+
+</body>
+</html>
